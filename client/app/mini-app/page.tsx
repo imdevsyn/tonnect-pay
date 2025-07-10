@@ -12,10 +12,31 @@ export default function MiniApp() {
     setOnboardSeen(onboard_status ?? "");
   }, []);
 
+  if (onboard !== "true") {
+    return (
+      <div className="container mx-auto">
+        <div className="max-w-md w-full mx-auto h-full bg-blue-900">
+          <SlideOnboard />
+        </div>
+      </div>
+    );
+  }
+
+  const clearStorage = () => {
+    localStorage.removeItem("onboarding_seen");
+  };
+
   return (
     <div className="container mx-auto">
       <div className="max-w-md w-full mx-auto h-full bg-blue-900">
-        {onboard != "true" ? <SlideOnboard /> : <div>Mini-app</div>}
+        <header>
+          <span>image</span>
+          <button>wallet</button>
+        </header>
+        <div>
+          <p>R$16.15</p>
+          <button onClick={clearStorage} className="bg-amber-400">clear storage</button>
+        </div>
       </div>
     </div>
   );
