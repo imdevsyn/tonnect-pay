@@ -30,7 +30,7 @@ export default function MiniApp() {
   return (
     <div className="container flex justify-center items-center mx-auto h-screen">
       <div className="max-h-[1024px] h-full max-w-md w-full flex flex-col mx-auto px-4 pt-5">
-        <header>
+        <header className="mb-2">
           <AppHeader />
         </header>
         <main className="h-full bg-gray-200">
