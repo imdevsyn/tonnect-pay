@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { SlideOnboard } from "../components/SlideOnboard";
+import { AppTabs, AppHeader } from "../components/miniapp";
 
 export default function MiniApp() {
   const [onboard, setOnboardSeen] = useState("");
@@ -27,15 +28,23 @@ export default function MiniApp() {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="max-w-md w-full mx-auto h-full bg-blue-900">
+    <div className="container flex justify-center items-center mx-auto h-screen">
+      <div className="max-h-[1024px] h-full max-w-md w-full flex flex-col mx-auto px-4 pt-5">
         <header>
-          <span>image</span>
-          <button>wallet</button>
+          <AppHeader />
         </header>
-        <div>
-          <p>R$16.15</p>
-          <button onClick={clearStorage} className="bg-amber-400">clear storage</button>
+        <main className="h-full bg-gray-200">
+          <button
+            onClick={clearStorage}
+            className="bg-amber-400 w-24 h-10 rounded-3xl"
+          >
+            clear
+          </button>
+        </main>
+        <div className="mt-auto pb-6">
+          <div className="flex justify-around">
+            <AppTabs />
+          </div>
         </div>
       </div>
     </div>

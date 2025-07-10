@@ -14,7 +14,7 @@ export function SlideOnboard() {
     }
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
     localStorage.setItem("onboarding_seen", "true");
     window.location.href = "/mini-app";
   };
