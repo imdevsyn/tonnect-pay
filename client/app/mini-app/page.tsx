@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { SlideOnboard } from "../components/SlideOnboard";
-import { AppTabs, AppHeader } from "../components/miniapp";
+import { AppTabs, AppHeader, WalletView } from "../components/miniapp";
 
 export default function MiniApp() {
   const [onboard, setOnboardSeen] = useState("");
+  const [activeTab, setActiveTab] = useState("wallet");
 
   useEffect(() => {
     const onboard_status: string | null =
@@ -23,6 +24,7 @@ export default function MiniApp() {
     );
   }
 
+  // FOR TESTS ONLY
   const clearStorage = () => {
     localStorage.removeItem("onboarding_seen");
   };
@@ -33,7 +35,8 @@ export default function MiniApp() {
         <header className="mb-2">
           <AppHeader />
         </header>
-        <main className="h-full bg-gray-200">
+        <main className="h-full overflow-hidden">
+          {activeTab === "wallet" && <WalletView />}
           <button
             onClick={clearStorage}
             className="bg-amber-400 w-24 h-10 rounded-3xl"
@@ -43,7 +46,7 @@ export default function MiniApp() {
         </main>
         <div className="mt-auto pb-6">
           <div className="flex justify-around">
-            <AppTabs />
+            <AppTabs onTabChange={setActiveTab} />
           </div>
         </div>
       </div>

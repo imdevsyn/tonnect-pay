@@ -7,10 +7,13 @@ import {
   ArrowRightLeft,
 } from "lucide-react";
 
-export function AppTabs() {
+type TabName = "wallet" | "ai" | "transactions" | "gallery" | "profile";
+type TabKey = (key: TabName) => void;
+
+export function AppTabs({ onTabChange }: { onTabChange: TabKey }) {
   return (
     <>
-      <button>
+      <button onClick={() => onTabChange("wallet")}>
         <Wallet />
       </button>
       <button>
