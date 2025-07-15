@@ -19,7 +19,7 @@ export function SlideOnboard() {
     window.location.href = "/mini-app";
   };
 
-  const Icons = {
+  const Icons: any = {
     chain: <LinkIcon color="#ffffff" size={25} />,
     zap: <Zap color="#ffffff" size={25} />,
     wallet: <WalletMinimal color="#ffffff" size={25} />,
