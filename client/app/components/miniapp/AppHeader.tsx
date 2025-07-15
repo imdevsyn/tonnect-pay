@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { ConnectButton } from "../ConnectButton";
 
 export function AppHeader() {
   return (
@@ -9,7 +11,9 @@ export function AppHeader() {
         </div>
         <p className="font-bold tracking-tight">Devsyn Builder</p>
       </div>
-      <div>Connect Wallet</div>
+      <div>
+        <ConnectButton />
+      </div>
     </div>
   );
 }

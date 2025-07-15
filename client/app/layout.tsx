@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const bricolageGrotesque = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -20,10 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${bricolageGrotesque.className} antialiased`}
-      >
-        {children}
+      <body className={`${bricolageGrotesque.className} antialiased`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
