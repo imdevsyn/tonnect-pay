@@ -6,28 +6,29 @@ import {
   Sparkles,
   ArrowRightLeft,
 } from "lucide-react";
+import Link from "next/link";
 
 type TabName = "wallet" | "ai" | "transactions" | "gallery" | "profile";
 type TabKey = (key: TabName) => void;
 
-export function AppTabs({ onTabChange }: { onTabChange: TabKey }) {
+export function AppTabs() {
   return (
-    <>
-      <button onClick={() => onTabChange("wallet")}>
+    <div className="flex justify-between items-center mb-4 px-4">
+      <Link href="/mini-app/wallet">
         <Wallet />
-      </button>
-      <button>
+      </Link>
+      <Link href="/mini-app/ai">
         <Sparkles />
-      </button>
-      <button>
+      </Link>
+      <Link href="/mini-app/swap">
         <ArrowRightLeft />
-      </button>
-      <button>
+      </Link>
+      <Link href="/mini-app/history">
         <GalleryVerticalEnd />
-      </button>
-      <button>
+      </Link>
+      <Link href="/mini-app/profile">
         <UserRound />
-      </button>
-    </>
+      </Link>
+    </div>
   );
 }

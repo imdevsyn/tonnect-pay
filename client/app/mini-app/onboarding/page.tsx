@@ -1,11 +1,10 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { slides } from "../constants/onboarding-slides";
+import { slides } from "@/app/constants/onboarding-slides";
 import { LinkIcon, ArrowRight, Zap, WalletMinimal } from "lucide-react";
-import Image from "next/image";
 
-export function SlideOnboard() {
+export default function Onboarding() {
   const [index, setIndex] = useState(0);
 
   const next = () => {
@@ -15,8 +14,8 @@ export function SlideOnboard() {
   };
 
   const handleSkip = async () => {
-    localStorage.setItem("onboarding_seen", "true");
-    window.location.href = "/mini-app";
+    localStorage.setItem("user_onboarded", "true");
+    window.location.href = "/mini-app/wallet";
   };
 
   const Icons: any = {

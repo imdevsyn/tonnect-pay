@@ -1,55 +1,25 @@
 "use client";
-import { useState, useEffect } from "react";
-import { SlideOnboard } from "../components/SlideOnboard";
-import { AppTabs, AppHeader, WalletView } from "../components/miniapp";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function MiniApp() {
-  const [onboard, setOnboardSeen] = useState("");
-  const [activeTab, setActiveTab] = useState("wallet");
+export default function MiniAppRoot() {
+  const router = useRouter();
+  const [onboarding, setOnboarding] = useState<string | null>(null);
 
   useEffect(() => {
-    const onboard_status: string | null =
-      localStorage.getItem("onboarding_seen");
-    console.log(onboard_status);
-    setOnboardSeen(onboard_status ?? "");
+    const onboard_status = localStorage.getItem("user_onboarded");
+    setOnboarding(onboard_status);
   }, []);
 
-  if (onboard !== "true") {
-    return (
-      <div className="container mx-auto">
-        <div className="max-w-md w-full mx-auto h-full bg-blue-900">
-          <SlideOnboard />
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (onboarding === null) return router.push("/mini-app/onboarding");
 
-  // FOR TESTS ONLY
-  const clearStorage = () => {
-    localStorage.removeItem("onboarding_seen");
-  };
+    if (onboarding === "true") {
+      router.push("/mini-app/wallet");
+    } else {
+      router.push("/mini-app/onboarding");
+    }
+  }, [onboarding]);
 
-  return (
-    <div className="container flex justify-center items-center mx-auto h-screen">
-      <div className="max-h-[1024px] h-full max-w-md w-full flex flex-col mx-auto px-4 pt-5">
-        <header className="mb-2">
-          <AppHeader />
-        </header>
-        <main className="h-full overflow-hidden">
-          {activeTab === "wallet" && <WalletView />}
-          <button
-            onClick={clearStorage}
-            className="bg-amber-400 w-24 h-10 rounded-3xl"
-          >
-            clear
-          </button>
-        </main>
-        <div className="mt-auto pb-6">
-          <div className="flex justify-around">
-            <AppTabs onTabChange={setActiveTab} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return null;
 }
