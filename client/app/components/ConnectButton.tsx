@@ -1,26 +1,51 @@
 "use client";
-import { useTonConnectUI } from "@tonconnect/ui-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Copy, LogOut } from "lucide-react";
+import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
+import { formatAddress, toUserFriendly } from "../utils/formatAddress";
 
 export function ConnectButton() {
   const [tonConnectUI] = useTonConnectUI();
-  const wallet = tonConnectUI.wallet;
+  const wallet = useTonWallet();
 
-  const handleConnect = () => {
-    if (wallet) {
-      tonConnectUI.disconnect();
-    } else {
-      tonConnectUI.openModal();
-    }
+  const handleDisconnect = () => {
+    tonConnectUI.disconnect();
   };
+
+  const handleCopy = () => {
+    const fullAddress = toUserFriendly(wallet?.account.address ?? "");
+    navigator.clipboard.writeText(fullAddress);
+  };
+
+  if (!wallet) {
+    return <Button onClick={() => tonConnectUI.openModal()} className="cursor-pointer">Conectar</Button>;
+  }
 
   return (
     <>
-      <button
-        onClick={handleConnect}
-        className="px-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
-      >
-        {wallet ? "Desconectar" : "Conectar"}
-      </button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">
+            {formatAddress(wallet.account.address)}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleCopy}>
+            <Copy />
+            Copiar endereço
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleDisconnect}>
+            <LogOut />
+            Desconectar
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 }

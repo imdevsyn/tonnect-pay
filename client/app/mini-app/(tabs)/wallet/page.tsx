@@ -1,5 +1,6 @@
 import { AppHeader } from "@/app/components/miniapp";
 import { ScanLine, Key, ArrowUpRight, ArrowUpLeft } from "lucide-react";
+import Link from "next/link";
 
 const tokens = [
   {
@@ -40,10 +41,10 @@ export default function Wallet() {
           </div>
         </div>
         <div className="flex justify-around mt-4 gap-2">
-          <button className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
+          <Link href="/mini-app/wallet/key-area" className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
             <Key />
             <span className="text-sm tracking-tight">Chave</span>
-          </button>
+          </Link>
 
           <button className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
             <ScanLine />
