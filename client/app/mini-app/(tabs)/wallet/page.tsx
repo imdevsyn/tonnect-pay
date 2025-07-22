@@ -1,6 +1,11 @@
+"use client";
+import Link from "next/link";
+import { useState } from "react";
 import { AppHeader } from "@/app/components/miniapp";
 import { ScanLine, Key, ArrowUpRight, ArrowUpLeft } from "lucide-react";
-import Link from "next/link";
+import { useTonWallet } from "@tonconnect/ui-react";
+import { useWalletBalance } from "@/app/hooks/useWalletBalance";
+import { TokenList } from "@/app/components/TokenList";
 
 const tokens = [
   {
@@ -27,6 +32,12 @@ const tokens = [
 ];
 
 export default function Wallet() {
+  const wallet = useTonWallet();
+  const address = wallet?.account.address;
+  const { jettons, tonBalance, totalBalance, totalBalanceInUSD } =
+    useWalletBalance(address);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   return (
     <>
       <AppHeader />
@@ -36,12 +47,23 @@ export default function Wallet() {
             Saldo Total
           </span>
           <div className="flex items-center justify-between">
-            <h1 className="font-bold text-3xl tracking-tight">R$ 1.413,04</h1>
-            <h2 className="text-black/45 text-base">US$ 255,36</h2>
+            <h1 className="font-bold text-3xl tracking-tight">
+              {isLoading ? (
+                <p>Carregando...</p>
+              ) : (
+                <span>R$ {totalBalance.toFixed(2)}</span>
+              )}
+            </h1>
+            <h2 className="text-black/45 text-base">
+              US$ {totalBalanceInUSD.toFixed(2)}
+            </h2>
           </div>
         </div>
         <div className="flex justify-around mt-4 gap-2">
-          <Link href="/mini-app/wallet/key-area" className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
+          <Link
+            href="/mini-app/wallet/key-area"
+            className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300"
+          >
             <Key />
             <span className="text-sm tracking-tight">Chave</span>
           </Link>
@@ -61,29 +83,7 @@ export default function Wallet() {
             <span className="text-sm tracking-tight">Receber</span>
           </button>
         </div>
-        <div className="mt-4">
-          {tokens.map((token) => (
-            <div
-              key={token.ticker}
-              className="flex justify-between bg-black/10 rounded-2xl mb-1.5 py-2 px-3"
-            >
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-10 h-10 bg-blue-900 rounded-full text-center">
-                  IMG
-                </div>
-                <div className="flex flex-col ">
-                  <h2>{token.name}</h2>
-                  <span>
-                    {token.balance} {token.ticker}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <span>R${token.price}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+        <TokenList jettons={jettons} address={`${address}`} />
       </div>
     </>
   );
