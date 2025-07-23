@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AppHeader } from "@/app/components/miniapp";
-import { ScanLine, Key, ArrowUpRight, ArrowUpLeft } from "lucide-react";
+import { ScanLine, Key, ArrowUpRight, ArrowUpLeft, QrCode, ScanQrCode, Scan } from "lucide-react";
 import { useTonWallet } from "@tonconnect/ui-react";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
 import { TokenList } from "@/app/components/TokenList";
@@ -69,18 +69,18 @@ export default function Wallet() {
           </Link>
 
           <button className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
-            <ScanLine />
+            <ScanQrCode />
+            <span className="text-sm tracking-tight">Receber</span>
+          </button>
+
+          <button className="flex flex-col items-center justify-center cursor-pointer flex-1 h-16 rounded-2xl bg-gray-300">
+            <Scan className="rotate-180" />
             <span className="text-sm tracking-tight">Pagar</span>
           </button>
 
           <button className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
             <ArrowUpRight />
             <span className="text-sm tracking-tight">Enviar</span>
-          </button>
-
-          <button className="flex flex-col items-center justify-center cursor-pointer flex-1 h-16 rounded-2xl bg-gray-300">
-            <ArrowUpLeft className="rotate-180" />
-            <span className="text-sm tracking-tight">Receber</span>
           </button>
         </div>
         <TokenList jettons={jettons} address={`${address}`} />
