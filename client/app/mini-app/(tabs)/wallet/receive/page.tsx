@@ -29,18 +29,21 @@ const tokens = [
     value: "ton",
     label: "TON",
     image: "/toncoin-icon.png",
+    disabled: false,
   },
   {
     value: "usde",
     label: "USDe",
     image:
       "https://cache.tonapi.io/imgproxy/VeuD6Bx5AEpyD0bUUvLl72LLiSUwVLCrQG6hBPmXu74/rs:fill:200:200:1/g:no/aHR0cHM6Ly9ldGhlbmEuZmkvc2hhcmVkL3VzZGUucG5n.webp",
+    disabled: true,
   },
   {
     value: "usdt",
     label: "USDT",
     image:
       "https://cache.tonapi.io/imgproxy/T3PB4s7oprNVaJkwqbGg54nexKE0zzKhcrPv8jcWYzU/rs:fill:200:200:1/g:no/aHR0cHM6Ly90ZXRoZXIudG8vaW1hZ2VzL2xvZ29DaXJjbGUucG5n.webp",
+    disabled: true,
   },
 ];
 
@@ -49,13 +52,9 @@ export default function Receive() {
   const [formatted, setFormatted] = useState("R$ 0,00");
   const [selectValue, setSelectValue] = useState<string>("ton");
   const [copied, setCopied] = useState<boolean>(false);
-  const [qrCodeData, setQrCodeData] = useState<{
-    token: string;
-    value: string;
-    address: string | undefined;
-  } | null>();
+  const [qrCodeData, setQrCodeData] = useState<string>("");
   const wallet = useTonWallet();
-  const address = wallet?.account.address;
+  const address = wallet?.account.address || "not defined";
 
   const spanRef = useRef<HTMLSpanElement>(null);
   const [inputWidth, setInputWidth] = useState<number>(50);
@@ -113,7 +112,11 @@ export default function Receive() {
   }, [formatted]);
 
   useEffect(() => {
-    setQrCodeData({ token: selectValue, value: formatted, address: address });
+    const amount = Number(rawValue) / 100;
+    console.log(amount);
+    const json = JSON.stringify({ selectValue, amount, address });
+    const encoded = btoa(json);
+    setQrCodeData(encoded);
   }, [selectValue, formatted, address]);
 
   return (
@@ -158,6 +161,7 @@ export default function Receive() {
                 <SelectItem
                   key={token.value}
                   value={token.value}
+                  disabled={token.disabled}
                   className="cursor-pointer"
                 >
                   <Image
@@ -190,7 +194,7 @@ export default function Receive() {
               <div className="flex justify-center my-auto">
                 <QRCode
                   size={160}
-                  value={JSON.stringify(qrCodeData)}
+                  value={qrCodeData}
                   className="border-2 p-4 rounded-2xl"
                 />
               </div>

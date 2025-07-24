@@ -14,6 +14,7 @@ import {
 import { useTonWallet } from "@tonconnect/ui-react";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
 import { TokenList } from "@/app/components/TokenList";
+import { useQrScanner } from "@/app/hooks/useQrScanner";
 
 const tokens = [
   {
@@ -45,6 +46,7 @@ export default function Wallet() {
   const { jettons, tonBalance, totalBalance, totalBalanceInUSD } =
     useWalletBalance(address);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { handleScanQr } = useQrScanner();
 
   return (
     <>
@@ -84,13 +86,13 @@ export default function Wallet() {
             <span className="text-sm tracking-tight">Receber</span>
           </Link>
 
-          <Link
-            href="/mini-app/wallet/scan"
+          <button
+            onClick={handleScanQr}
             className="flex flex-col items-center justify-center cursor-pointer flex-1 h-16 rounded-2xl bg-gray-300"
           >
             <Scan className="rotate-180" />
             <span className="text-sm tracking-tight">Pagar</span>
-          </Link>
+          </button>
 
           <button className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
             <ArrowUpRight />
