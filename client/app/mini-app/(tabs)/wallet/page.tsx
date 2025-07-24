@@ -84,10 +84,13 @@ export default function Wallet() {
             <span className="text-sm tracking-tight">Receber</span>
           </Link>
 
-          <button className="flex flex-col items-center justify-center cursor-pointer flex-1 h-16 rounded-2xl bg-gray-300">
+          <Link
+            href="/mini-app/wallet/scan"
+            className="flex flex-col items-center justify-center cursor-pointer flex-1 h-16 rounded-2xl bg-gray-300"
+          >
             <Scan className="rotate-180" />
             <span className="text-sm tracking-tight">Pagar</span>
-          </button>
+          </Link>
 
           <button className="flex flex-col items-center justify-center cursor-pointer flex-1 rounded-2xl bg-gray-300">
             <ArrowUpRight />
