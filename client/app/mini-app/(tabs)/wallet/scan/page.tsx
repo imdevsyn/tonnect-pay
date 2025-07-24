@@ -10,7 +10,11 @@ export default function Scan() {
 
   useEffect(() => {
     const setupScanner = async () => {
-      const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+      const config = {
+        fps: 15,
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0,
+      };
 
       const devices = await Html5Qrcode.getCameras();
       const backCamera =
@@ -37,7 +41,6 @@ export default function Scan() {
             html5QrCode.stop();
           },
           (error) => {
-            console.warn("QR Code scan error:", error);
           }
         )
         .catch((err) => {
@@ -57,28 +60,27 @@ export default function Scan() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-black p-4">
-      <h1 className="text-2xl font-bold mb-4">Escaneie o QR Code</h1>
-
-      {!decodedText ? (
+    <div className="flex pt-5 flex-col items-center justify-between h-full">
+      {!decodedText && (
         <div
           id={qrCodeRegionId}
-          className="w-[300px] h-[300px] rounded overflow-hidden shadow-lg"
+          className="w-[300px] h-[300px] rounded-xl overflow-hidden"
         />
-      ) : (
-        <div className="mt-4 p-4 rounded shadow">
-          <p className="text-lg">QR Code detectado:</p>
-          <code className="break-all">{decodedText}</code>
-        </div>
       )}
 
       {decodedText && (
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
-        >
-          Escanear Novamente
-        </button>
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black z-20 p-4">
+          <p className="text-lg mb-4 text-white">QR Code detectado:</p>
+          <code className="break-all text-sm text-green-400">
+            {decodedText}
+          </code>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded"
+          >
+            Escanear Novamente
+          </button>
+        </div>
       )}
     </div>
   );
