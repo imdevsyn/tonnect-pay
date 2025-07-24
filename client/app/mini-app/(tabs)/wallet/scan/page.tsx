@@ -1,17 +1,26 @@
-"use client"
-import React from "react";
-import { qrScanner } from "@telegram-apps/sdk";
+'use client';
 
-export default function Scan() {
+export default function QrScanner() {
   const handleScan = () => {
-    qrScanner.open().then((content) => {
-      console.log(content);
+    if (!window.Telegram?.WebApp?.showScanQrPopup) {
+      alert("QR Scan não suportado");
+      return;
+    }
+
+    window.Telegram.WebApp.showScanQrPopup({
+      text: "Scan a QR code",
+      onSuccess: (qrText) => {
+        console.log("Scanned QR:", qrText);
+      },
+      onError: (error) => {
+        console.error("QR Scan Error:", error);
+      },
     });
-    console.log(qrScanner.isOpened);
   };
+
   return (
-    <div>
-      <button onClick={handleScan}>OPEN SCAN</button>
-    </div>
+    <button onClick={handleScan} className="bg-blue-500 text-white p-4 rounded">
+      Escanear QR Code
+    </button>
   );
 }
