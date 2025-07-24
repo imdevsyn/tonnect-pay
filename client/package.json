@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dedust/sdk": "^0.8.7",
     "@orbs-network/ton-access": "^2.3.3",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
@@ -17,6 +18,7 @@
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
+    "@telegram-apps/sdk": "^3.11.4",
     "@ton/core": "^0.61.0",
     "@ton/crypto": "^3.3.0",
     "@ton/ton": "^15.3.1",
