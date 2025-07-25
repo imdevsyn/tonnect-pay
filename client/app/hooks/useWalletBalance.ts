@@ -1,7 +1,7 @@
+import {tonapi} from "../utils/tonAPI";// caminho para o arquivo da instância
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { IJettonBalance } from "../types/JettonBalance";
-import { toNano, fromNano } from "@ton/core";
 
 export function useWalletBalance(address: string | undefined) {
   const [tonBalance, setTonBalance] = useState<number>(0);
@@ -11,6 +11,8 @@ export function useWalletBalance(address: string | undefined) {
   const [totalBalanceInUSD, setTotalBalanceInUSD] = useState<number>(0);
 
   useEffect(() => {
+    if (!address) return;
+
     const fetch = async () => {
       try {
         const [
@@ -19,10 +21,8 @@ export function useWalletBalance(address: string | undefined) {
           tonPriceInBRLResponse,
           usdPriceResponse,
         ] = await Promise.all([
-          axios.get(`https://tonapi.io/v2/accounts/${address}`),
-          axios.get(
-            `https://tonapi.io/v2/accounts/${address}/jettons?currencies=ton,usd,brl`
-          ),
+          tonapi.get(`/accounts/${address}`),
+          tonapi.get(`/accounts/${address}/jettons?currencies=ton,usd,brl`),
           axios.get(
             "https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=brl"
           ),
@@ -54,7 +54,7 @@ export function useWalletBalance(address: string | undefined) {
         setTotalBalance(tonBalanceInBRL + jettonTotal);
         setTotalBalanceInUSD(balanceInUSD);
       } catch (error) {
-        console.log("Error while fetching balance:", error);
+        console.log("Erro ao buscar saldo:", error);
       }
     };
 
